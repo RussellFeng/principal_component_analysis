@@ -1,7 +1,7 @@
 # principal_component_analysis
 推荐系统数据降维
 表1 菜品打分数据表
-		叉烧肠粉	新疆手抓饭	四川火锅	粤式烧鹅饭	大盘鸡拌面	东北饺子	重庆辣子鸡	广东虾饺	剁椒鱼头	兰州拉面	烤羊排
+	叉烧肠粉	新疆手抓饭	四川火锅	粤式烧鹅饭	大盘鸡拌面	东北饺子	重庆辣子鸡	广东虾饺	剁椒鱼头	兰州拉面	烤羊排
 丁一	5	2	1	4	0	0	2	4	0	0	0
 刘二	0	0	0	0	0	0	0	0	0	3	0
 张三	1	0	5	2	0	0	3	0	3	0	1
@@ -34,12 +34,15 @@ def cosSim(vec_1, vec_2):
     dotProd = float(np.dot(vec_1.T, vec_2))
     normProd = np.linalg.norm(vec_1)*np.linalg.norm(vec_2)
     return 0.5+0.5*(dotProd/normProd)
+    
 计算菜品的余弦相似度需要同时吃过该菜品的顾客的打分，因此需要对该菜品打分的稀疏矩阵进行主成分分析来降维。计算得得到特征值后：进行累计贡献率计算，取累计贡献率大于90%作为主成分分析，代码为：
+
 for k in range(len(eignvalue)):
     sigmaSum = sigmaSum + eignvalue[k]
     if float(sigmaSum)/float(np.sum(eignvalue)) > 0.9:
         k_num = k+1
         Break
+	
 可得需要前6个特征值，即把维度降到6维。
 用主成分分析的方法得到6*11维的矩阵scoreData_PCA。
 代码为：
