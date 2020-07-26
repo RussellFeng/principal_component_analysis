@@ -25,29 +25,46 @@
 如表1所示为18名用户对11个不同的菜品进行了打分评价表，打分为0表示用户未消费该类菜品。  
 
 本次建模的目标是根据用户对菜品的1-5打分，来分析用户对打分为0的菜品的可能打分，来进行菜品推荐。
+
 例如我们想给丁一推荐菜品，已知丁一没吃过的菜品有大盘面拌鸡，东北饺子，剁椒鱼头，兰州拉面，烤羊排，目标是根据丁一对已经吃过的菜品从中进行推荐。同理对其他顾客进行菜品推荐。
+
 为了进行菜品推荐，就要寻找不同菜品之间的相似程度，相似度高的菜品，打分也是相似的，就能判断出顾客对菜品的喜爱程度从而进行推荐。
+
 相似度采用余弦相似度来计算：
+
 公式为：
+
 代码为：
-def cosSim(vec_1, vec_2):
+
+
+
+````<def cosSim(vec_1, vec_2):
+
     dotProd = float(np.dot(vec_1.T, vec_2))
+    
     normProd = np.linalg.norm(vec_1)*np.linalg.norm(vec_2)
-    return 0.5+0.5*(dotProd/normProd)
+    
+    return 0.5+0.5*(dotProd/normProd)>`
+```
+    
     
 计算菜品的余弦相似度需要同时吃过该菜品的顾客的打分，因此需要对该菜品打分的稀疏矩阵进行主成分分析来降维。计算得得到特征值后：进行累计贡献率计算，取累计贡献率大于90%作为主成分分析，代码为：
 
-for k in range(len(eignvalue)):
+```
+`<for k in range(len(eignvalue)):
     sigmaSum = sigmaSum + eignvalue[k]
     if float(sigmaSum)/float(np.sum(eignvalue)) > 0.9:
         k_num = k+1
-        Break
+        Break>`
+```
 	
 可得需要前6个特征值，即把维度降到6维。
 用主成分分析的方法得到6*11维的矩阵scoreData_PCA。
 代码为：
-pca = decomposition.PCA(n_components=k_num)
-scoreData_PCA = pca.fit_transform(scoreData_mean).T
+```
+`<pca = decomposition.PCA(n_components=k_num)>`
+`<scoreData_PCA = pca.fit_transform(scoreData_mean).T>`
+```
 最后进行相似度加权打分，计算公式为：
 
 得到最终结果为：
