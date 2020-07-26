@@ -33,10 +33,9 @@
 相似度采用余弦相似度来计算：
 
 公式为：
+$$\[ \cos (\theta)=\frac{A \cdot B}{\|A\|\|B\|} \]$$
 
 代码为：
-
-
 
 ````<def cosSim(vec_1, vec_2):
 
@@ -66,7 +65,7 @@
 `<scoreData_PCA = pca.fit_transform(scoreData_mean).T>`
 ```
 最后进行相似度加权打分，计算公式为：
-
+$$S \text { core }_{x}=\frac{\text { Score }_{1} \cdot \sin _{1}+\text { Score }_{2} \cdot \operatorname{sim}_{2}+\ldots \text { Score }_{n} \cdot \operatorname{sim}_{n}}{\operatorname{sim}_{1}+\operatorname{sim}_{2}+\ldots+\operatorname{sim}_{n}}$$
 得到最终结果为：
 丁一,大盘鸡拌面,score:2.79
 丁一,东北饺子,score:2.67
